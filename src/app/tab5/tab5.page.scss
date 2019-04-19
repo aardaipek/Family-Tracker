@@ -1,0 +1,24 @@
+ion-card-title {
+    text-align:center;
+  }
+  ion-content {
+    --background: #654ea3;  
+    --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3); 
+    --background: linear-gradient(to right, #eaafc8, #654ea3); 
+
+  }
+  ion-toolbar {
+    --background: #654ea3;  
+    --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3); 
+    --background: linear-gradient(to right, #eaafc8, #654ea3); 
+  
+  }
+  ion-avatar {
+    border-radius: 10px;
+    position: relative;
+    background-color:transparent !important;
+    height:7em;
+    width:7em;
+  }
+  
+  

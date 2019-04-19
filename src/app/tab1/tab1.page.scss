@@ -1,4 +1,33 @@
-.welcome-card ion-img {
-  max-height: 35vh;
-  overflow: hidden;
+ion-button {
+  margin-top: 2rem;
+}
+ion-label{
+  background-color:  transparent !important; 
+  color: #000;
+}
+ion-input {
+  background-color:  transparent !important; 
+}
+ion-list-header {
+  background-color:  transparent !important;
+  text-transform: uppercase !important;
+}
+ion-list {
+  background-color:  transparent !important; 
+}
+ion-item {
+ 
+  background-color:  transparent !important; 
+}
+ion-content {
+  --background: #654ea3;  
+  --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3); 
+  --background: linear-gradient(to right, #eaafc8, #654ea3); 
+
+}
+ion-toolbar {
+  --background: #654ea3;  
+  --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3); 
+  --background: linear-gradient(to right, #eaafc8, #654ea3); 
+
 }

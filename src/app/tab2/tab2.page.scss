@@ -1,1 +1,17 @@
 
+ #map{
+    height: 55% !important;
+}
+ion-button {
+    margin-top: 2rem;
+}
+ion-list-header {
+    text-transform: uppercase !important;
+}
+ion-content {
+    --background: #654ea3;  
+    --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3); 
+    --background: linear-gradient(to right, #eaafc8, #654ea3); 
+
+  }
+
