@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="tabs"></ion-back-button>
+    <ion-buttons color="light" slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>{{title}}</ion-title>  
   </ion-toolbar>
@@ -9,23 +9,47 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item>
-      <ion-label position="floating" >Kullanıcı Adı</ion-label>
-      <ion-input></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Mail Adresi</ion-label>
-      <ion-input></ion-input>
-    </ion-item>
-    <ion-button expand="block">Block Button</ion-button> 
+   
+    <ion-input  [(ngModel)]="userName" placeholder="Kullanıcı Adı"></ion-input>
+   
+    <ion-input [(ngModel)]="mail" placeholder="Mail Adresi"></ion-input>
+   
+    <ion-button  color="light" expand="block" (click)=  "memberAdd()">Kullanıcı Ekle</ion-button> 
 </ion-list>
 <ion-list>
-    <ion-list-header>Takip Edilen Kullanıcılar</ion-list-header>
-  <ion-item >
-    <ion-label ></ion-label>
-    <ion-label ></ion-label>
-  </ion-item>
+    <ion-list-header  >Takip Edilen Kullanıcılar</ion-list-header>
+    <ion-item-divider color= "medium"></ion-item-divider>
+    <ion-card>
+      <ion-card-content>
+          <ion-grid>
+        <ion-row>
+            <ion-label color="light" style="margin-right:2em;" >Arda İpek</ion-label>
+            <ion-label  color="light" >test@test.com</ion-label>
+        </ion-row>
+      </ion-grid>
+      </ion-card-content>
+    </ion-card> 
+    <ion-card>
+        <ion-card-content>
+            <ion-grid>
+          <ion-row>
+              <ion-label  color="light" style="margin-right:2em;" >İsmail Abi</ion-label>
+              <ion-label  color="light" >ismail@test.com</ion-label>
+          </ion-row>
+        </ion-grid>
+        </ion-card-content>
+      </ion-card> 
+      <ion-card>
+        <ion-card-content>
+            <ion-grid>
+          <ion-row>
+              <ion-label color="light" style="margin-right:2em;" >Mecnun</ion-label>
+              <ion-label  color="light" >mecnun@test.com</ion-label>
+          </ion-row>
+        </ion-grid>
+        </ion-card-content>
+      </ion-card> 
 </ion-list>
    
-    <ion-button expand="block" routerLink="/login" routerDirection="root"> Login</ion-button>
+    <ion-button expand="block"  color="light" (click)="goToDashboard()"  routerDirection="root"> Subscription</ion-button>
   </ion-content>

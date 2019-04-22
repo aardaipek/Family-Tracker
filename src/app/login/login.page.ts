@@ -20,6 +20,8 @@ export class LoginPage implements OnInit {
   password: string;
   validations_form: FormGroup;
   errorMessage: string = "";
+  userMail:string;
+  
 
   constructor(
     private navCtrl: NavController,
@@ -29,6 +31,7 @@ export class LoginPage implements OnInit {
   ) {}
 
   ngOnInit() {
+   
     
     this.validations_form = this.formBuilder.group({
       email: new FormControl(
@@ -45,8 +48,8 @@ export class LoginPage implements OnInit {
     });
 
     
-  }
-
+  } 
+    
   validation_messages = {
     email: [
       { type: "required", message: "Email gerekli" },
@@ -62,19 +65,21 @@ export class LoginPage implements OnInit {
   };
 
   loginUser() {
-    this.authService.loginUser("test@test.com","123456").then(
+    this.authService.loginUser(this.email,this.password).then(
       res => {
         console.log(res);
         this.errorMessage = "";
-        this.navCtrl.navigateForward("/tabs/tab1");
+        this.router.navigate(['/tabs'])
       },
       err => {
         this.errorMessage = err.message;
       }
+      
     );
   }
   goToRegisterPage() {
     this.navCtrl.navigateForward("/register");
+    
   }
   goToOtherPage() {
     this.navCtrl.navigateForward("/dashboard");

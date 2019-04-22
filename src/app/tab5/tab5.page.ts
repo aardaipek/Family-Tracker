@@ -11,6 +11,7 @@ import { Router } from "@angular/router";
 })
 export class Tab5Page implements OnInit {
   title = "Profile";
+  userMail:string;
   constructor(
     private navCtrl: NavController,
     private router: Router,
@@ -34,5 +35,8 @@ export class Tab5Page implements OnInit {
       .catch(error => {
         console.log(error);
       });
+  }
+  getUser() {
+    this.authService.user.email =  this.userMail;
   }
 }

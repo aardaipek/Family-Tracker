@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 
@@ -8,25 +9,15 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-  
-  constructor(private menu: MenuController) { }
+    title:string = "Aboneliğim"
+  constructor(private menu: MenuController, private authService: AuthService) { }
 
   ngOnInit() {
+    
   }
 
-  openFirst() {
-    this.menu.enable(true, 'first');
-    this.menu.open('first');
-  }
-
-  openEnd() {
-    this.menu.open('end');
-  }
-
-  openCustom() {
-    this.menu.enable(true, 'custom');
-    this.menu.open('custom');
-  }
+ 
+ 
   
  
 

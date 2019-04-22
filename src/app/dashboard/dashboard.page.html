@@ -1,22 +1,44 @@
-<ion-menu side="start" menuId="custom" class="my-custom-menu">
-  <ion-header>
-    <ion-toolbar color="tertiary">
-      <ion-title>Custom Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-<ion-content>
-  <ion-list>
-    <ion-item>Menu Item</ion-item>
-    <ion-item>Menu Item</ion-item>
-    <ion-item>Menu Item</ion-item>
-    <ion-item>Menu Item</ion-item>
-    <ion-item>Menu Item</ion-item>
-  </ion-list>
-</ion-content>
-</ion-menu>
-
-<ion-footer (click)="logout()">
-  <ion-toolbar color="secondary">
-    <ion-title>Log out</ion-title>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons color="light" slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{title}}</ion-title>  
   </ion-toolbar>
-</ion-footer>
+</ion-header>
+<ion-content >
+  <ion-list>
+      <ion-card >
+          <ion-card-header>
+              <ion-card-title >Abonelik Bilgilerin</ion-card-title>
+          </ion-card-header>
+          <ion-item-divider color= "medium"></ion-item-divider>
+          <ion-card-content>
+              <ion-grid>
+                <ion-row> 
+              <ion-label>Yenileme Tarihi:  22.05.2019 </ion-label>
+            </ion-row>
+            <ion-row> 
+              <ion-label>Mail : arda@arda.com </ion-label>
+            </ion-row>
+            <ion-row> 
+            <ion-label>Plan Ayrıntıları : 2+ Kullanıcı </ion-label>
+            <ion-button  color="tertiary"  fill="outline" size="small" >Kullanıcı Arttır</ion-button> 
+            </ion-row>
+          </ion-grid>
+          </ion-card-content>
+        </ion-card> 
+        
+  </ion-list>
+<ion-grid>
+  <ion-row>
+    <ion-col>
+        <ion-button  color="primary" fill="outline" expand="block" >Fatura Ayrıntıları</ion-button> 
+    </ion-col>
+    
+
+  </ion-row>
+</ion-grid>
+<ion-button padding  color="danger" fill="outline" expand="block" >Aboneliği Sonlandır </ion-button> 
+
+</ion-content>

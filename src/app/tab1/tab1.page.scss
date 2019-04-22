@@ -1,33 +1,33 @@
-ion-button {
-  margin-top: 2rem;
-}
-ion-label{
-  background-color:  transparent !important; 
-  color: #000;
-}
-ion-input {
-  background-color:  transparent !important; 
-}
-ion-list-header {
-  background-color:  transparent !important;
-  text-transform: uppercase !important;
+ion-content {
+  background-color: transparent !important;
 }
 ion-list {
-  background-color:  transparent !important; 
+  background-color: transparent !important;
 }
-ion-item {
- 
-  background-color:  transparent !important; 
-}
-ion-content {
-  --background: #654ea3;  
-  --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3); 
-  --background: linear-gradient(to right, #eaafc8, #654ea3); 
 
+ion-label {
+  background-color: transparent !important;
+}
+ion-list-header {
+  text-align: center !important;
+}
+
+ion-input {
+  background-color: transparent !important;
+  margin-bottom: 1em;
+}
+ion-item-divider {
+  margin-top: 0px;
+  min-height: 1px !important;
+}
+
+ion-content {
+  --background: #654ea3;
+  --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
+  --background: linear-gradient(to right, #eaafc8, #654ea3);
 }
 ion-toolbar {
-  --background: #654ea3;  
-  --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3); 
-  --background: linear-gradient(to right, #eaafc8, #654ea3); 
-
+  --background: #654ea3;
+  --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
+  --background: linear-gradient(to right, #eaafc8, #654ea3);
 }
