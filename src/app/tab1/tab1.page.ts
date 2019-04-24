@@ -21,6 +21,9 @@ export class Tab1Page {
   goToDashboard() {
     this.navCtrl.navigateForward("/dashboard");
   }
+  goToMap() {
+    this.navCtrl.navigateForward('/home')
+  }
 
   memberAdd(){
     if(this.mail == null || this.userName ==null){

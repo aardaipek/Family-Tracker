@@ -3,6 +3,9 @@ import { Component, OnInit } from "@angular/core";
 import { NavController, ModalController } from "@ionic/angular";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
+import * as firebase from "firebase";
+import { AlertController } from "@ionic/angular";
+
 
 @Component({
   selector: "app-tab5",
@@ -16,27 +19,44 @@ export class Tab5Page implements OnInit {
     private navCtrl: NavController,
     private router: Router,
     private authService: AuthService,
+    public alertController: AlertController,
     public modalController: ModalController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        console.log(user)
+      } else {
+        // No user is signed in.
+      }
+    });
+  
+  }
+  async logoutAlert() {
+    const alert = await this.alertController.create({
+      header: 'Başarıyla çıkış yapıldı',
+      buttons: ["OK"]
+    });
 
-  go() {
-    this.navCtrl.navigateForward("/dashboard");
+    await alert.present();
   }
 
+  
   logout() {
     this.authService
       .logoutUser()
       .then(res => {
-        console.log(res);
+        this.logoutAlert()
         this.navCtrl.navigateBack("/login");
       })
       .catch(error => {
         console.log(error);
       });
   }
-  getUser() {
-    this.authService.user.email =  this.userMail;
+
+  goToMap() {
+    this.navCtrl.navigateForward('/home')
   }
+ 
 }

@@ -13,12 +13,21 @@ ion-card-title {
     --background: linear-gradient(to right, #eaafc8, #654ea3); 
   
   }
+  ion-label > p {
+    color: #fff;
+  }
+  ion-button {
+    margin-bottom: 1em;
+  }
+  ion-item-divider {
+    margin-top: 0px;
+    min-height: 1px !important;
+  }
   ion-avatar {
     border-radius: 10px;
-    position: relative;
     background-color:transparent !important;
-    height:7em;
-    width:7em;
+    height:10em;
+    width:10em;
   }
   
   

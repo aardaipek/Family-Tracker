@@ -2,16 +2,45 @@
  #map{
     height: 55% !important;
 }
-ion-button {
-    margin-top: 2rem;
+
+ion-label {
+  background-color: transparent !important;
 }
+ion-item {
+  background-color: transparent !important;
+}
+ion-item-sliding {
+  background-color: transparent !important;
+}
+
+ion-input {
+    background-color: transparent !important;
+    margin-bottom: 1em;
+    color: #fff;
+  }
+  ion-input > ::placeholder {
+    color: #000;
+  }
+  #div {
+    background-color: transparent !important;
+  }
+ion-list {
+    background-color: transparent !important;
+    margin-top: 1.5em;
+  }
 ion-list-header {
     text-transform: uppercase !important;
+    text-align: center !important;
+    color:#fff;
 }
+ion-item-divider {
+    margin-top: 0px;
+    min-height: 1px !important;
+  }
 ion-content {
     --background: #654ea3;  
     --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3); 
     --background: linear-gradient(to right, #eaafc8, #654ea3); 
-
+    background-color: transparent !important;
   }
 

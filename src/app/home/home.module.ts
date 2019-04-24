@@ -1,3 +1,4 @@
+import { AuthGuard } from './../auth.guard';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

@@ -1,57 +1,62 @@
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button color="light" defaultHref="/"></ion-back-button>
-        </ion-buttons>
-        <ion-title>{{title}}</ion-title> 
-      <ion-buttons slot="primary">
-        <ion-button color="warning" fill="outline">
-          Settings
-          <ion-icon slot="end" name="settings"  (click)="go()" ></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
+    <ion-title>{{title}}</ion-title>
+  </ion-toolbar>
 
-<ion-content padding>
-    <ion-row>
-    <ion-col size="4">
-      
-    </ion-col>
-    <ion-col>
-        <ion-avatar >
-            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+
+  <ion-content padding>
+    <ion-grid>
+      <ion-row align-items-center>
+        <ion-col>
+
+        </ion-col>
+        <ion-col>
+          <ion-avatar>
+            <img src="http://i.hizliresim.com/KqGGpZ.png">
           </ion-avatar>
+        </ion-col>
+        <ion-col>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-list-header>Profil Bilgilerin</ion-list-header>
+    <ion-item-divider color="light"></ion-item-divider>
+    <ion-card>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-label color="light" style="margin-bottom:1rem">Arda İpek</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-label color="light">test@test.com</ion-label>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-list-header>Kaydettiğin Adresler</ion-list-header>
+    <ion-item-divider color="light"></ion-item-divider>
+    <ion-card style="margin-top:3em">
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-label>
+                <h1 style="color:white">Arda Ipek</h1>
+              </ion-label>
             </ion-col>
-    <ion-col>
-     
-    </ion-col>
-  </ion-row>
-       
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Profil</ion-card-title>
-      <p>{{userMail}}</p>
-    </ion-card-header>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <ion-item-divider style="margin-top:10em; margin-bottom:0.1em;" color="light"></ion-item-divider>
+    <ion-row>
+      <ion-col>
+          <ion-button style="float:left"  color="tertiary" (click)="goToEdit()"  routerDirection="root">Profili Düzenle</ion-button>
+      </ion-col>
+      <ion-col>
+          <ion-button style="float:right" color="medium" (click)="logout()" routerDirection="root">Ayarlar</ion-button>
+      </ion-col>
+    </ion-row>
 
-    <ion-card-content padding>
-      <ion-label><ion-icon name="water" slot="start"></ion-icon>Kullanıcı Adı:  </ion-label> <br>
-      <ion-label><ion-icon name="walk" slot="start"></ion-icon>Telefon:  </ion-label><br>
-      <ion-label><ion-icon name="water" slot="start"></ion-icon>Mail:  </ion-label>  
-  </ion-card-content>
-  </ion-card>
-
-  <ion-card style="margin-top:2em;">
-    <ion-card-header>
-      <ion-card-title>Takip Ettiklen Adresler</ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content padding>
-      <ion-label><ion-icon name="water" slot="start"></ion-icon>Kullanıcı Adı:  </ion-label> <br>
-      <ion-label><ion-icon name="walk" slot="start"></ion-icon>Telefon:  </ion-label><br>
-      <ion-label><ion-icon name="water" slot="start"></ion-icon>Mail:  </ion-label>  
-  </ion-card-content>
-  </ion-card>
-  
-  
- 
-    
-</ion-content>
+  </ion-content>

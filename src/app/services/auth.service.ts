@@ -22,14 +22,15 @@ export class AuthService {
     private plt: Platform
   ) {
     
-     /* this.afAuth.authState.subscribe(user => {
+      this.afAuth.authState.subscribe(user => {
       if (user) {
         this.user = user;
-        localStorage.setItem("user", JSON.stringify(this.user));
+        localStorage.setItem("user", JSON.stringify(this.user.email));
+        console.log(this.user.email)
       } else {
         localStorage.setItem("user", null);
       }
-    });  */
+    });  
   }
 
   registerUser(value){
@@ -40,13 +41,16 @@ export class AuthService {
         err => reject(err))
     })
    }
-   loginUser(email: string, password: string){
-    return new Promise<any>((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(email,password)
+   loginUser(email: string, password: string): Promise<firebase.auth.UserCredential>{
+   return firebase.auth().signInWithEmailAndPassword(email,password)
+   /*  return new Promise<any>((resolve, reject) => {
+      
       .then(
-        res => resolve(res),
-        err => reject(err))
-    })
+        res => resolve(res)
+       ).catch(
+        err => reject(err)
+        )
+    }) */
    }
    logoutUser(){
     return new Promise((resolve, reject) => {

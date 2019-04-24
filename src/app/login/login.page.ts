@@ -8,6 +8,8 @@ import {
 } from "@angular/forms";
 import { NavController } from "@ionic/angular";
 import { Router } from '@angular/router';
+import * as firebase from "firebase";
+
 
 @Component({
   selector: "app-login",
@@ -31,6 +33,13 @@ export class LoginPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        console.log("user bu",user)
+      } else {
+        console.log("user yok")
+      }
+    });
    
     
     this.validations_form = this.formBuilder.group({
@@ -67,15 +76,18 @@ export class LoginPage implements OnInit {
   loginUser() {
     this.authService.loginUser(this.email,this.password).then(
       res => {
+        //this.errorMessage = "";
+        this.router.navigate(['tabs'])
         console.log(res);
-        this.errorMessage = "";
-        this.router.navigate(['/tabs'])
       },
       err => {
         this.errorMessage = err.message;
       }
       
     );
+  }
+  resetPassword(email:string): Promise<void> {
+    return firebase.auth().sendPasswordResetEmail(email);
   }
   goToRegisterPage() {
     this.navCtrl.navigateForward("/register");

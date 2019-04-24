@@ -1,18 +1,32 @@
-ion-label {
-    color: #fff !important;
-}
-  ion-list-header {
-    background-color:  transparent !important;
+ion-list-header {
+  background-color: transparent !important;
 }
 ion-content {
-  --background: #654ea3;  
-  --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3); 
-  --background: linear-gradient(to right, #eaafc8, #654ea3); 
-
+  --background: #654ea3;
+  --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
+  --background: linear-gradient(to right, #eaafc8, #654ea3);
 }
 ion-toolbar {
-  --background: #654ea3;  
-  --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3); 
-  --background: linear-gradient(to right, #eaafc8, #654ea3); 
-
+  --background: #654ea3;
+  --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
+  --background: linear-gradient(to right, #eaafc8, #654ea3);
+}
+ion-list {
+  --ion-background-color: transparent !important;
+}
+ion-item-sliding {
+  --ion-background-color: transparent !important;
+}
+ion-item {
+  --ion-background-color: transparent !important;
+}
+ion-label {
+  --ion-background-color: transparent !important;
+}
+img {
+  border-radius: 10em;
+}
+#ifCard{
+  --ion-background-color: transparent !important;
+  color: #fff;
 }
