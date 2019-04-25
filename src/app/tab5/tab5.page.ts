@@ -5,6 +5,7 @@ import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import * as firebase from "firebase";
 import { AlertController } from "@ionic/angular";
+import { stringify } from '@angular/core/src/util';
 
 
 @Component({
@@ -14,7 +15,9 @@ import { AlertController } from "@ionic/angular";
 })
 export class Tab5Page implements OnInit {
   title = "Profile";
-  userMail:string;
+  email:string;
+  uid: any;
+  userName : string;
   constructor(
     private navCtrl: NavController,
     private router: Router,
@@ -24,15 +27,17 @@ export class Tab5Page implements OnInit {
   ) {}
 
   ngOnInit() {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        console.log(user)
-      } else {
-        // No user is signed in.
-      }
-    });
-  
+    if (firebase.auth().currentUser != null) {
+      firebase.auth().currentUser.providerData.forEach((profile) => {
+        console.log("  UserName: " + profile.displayName);
+        console.log("  Email: " + profile.email);
+        this.userName = profile.displayName
+        this.email =  profile.email
+      
+      });
+    }
   }
+ 
   async logoutAlert() {
     const alert = await this.alertController.create({
       header: 'Başarıyla çıkış yapıldı',
@@ -55,8 +60,11 @@ export class Tab5Page implements OnInit {
       });
   }
 
-  goToMap() {
-    this.navCtrl.navigateForward('/home')
+  goToEdit() {
+    this.navCtrl.navigateForward('/edit-profile')
+  }
+  goToDashboard() {
+    this.navCtrl.navigateForward("/dashboard");
   }
  
 }

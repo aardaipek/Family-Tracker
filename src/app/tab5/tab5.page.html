@@ -25,10 +25,10 @@
       <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-label color="light" style="margin-bottom:1rem">Arda İpek</ion-label>
+            <ion-label color="light" style="margin-bottom:1rem">Email : {{email}}</ion-label>
           </ion-row>
           <ion-row>
-            <ion-label color="light">test@test.com</ion-label>
+            <ion-label color="light">Kullanıcı Adı : {{userName}}</ion-label>
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -49,13 +49,14 @@
         </ion-grid>
       </ion-card-content>
     </ion-card>
-    <ion-item-divider style="margin-top:10em; margin-bottom:0.1em;" color="light"></ion-item-divider>
+    <ion-button style="margin-top:7em;" expand="block" color="light" (click)="goToDashboard()" routerDirection="root"> Abonelik </ion-button>
+    <ion-item-divider style=" margin-bottom:0.1em;" color="light"></ion-item-divider>
     <ion-row>
       <ion-col>
           <ion-button style="float:left"  color="tertiary" (click)="goToEdit()"  routerDirection="root">Profili Düzenle</ion-button>
       </ion-col>
       <ion-col>
-          <ion-button style="float:right" color="medium" (click)="logout()" routerDirection="root">Ayarlar</ion-button>
+          <ion-button style="float:right" color="medium" (click)="logout()" routerDirection="root">Çıkış</ion-button>
       </ion-col>
     </ion-row>
 

@@ -1,3 +1,4 @@
+import { ToastService } from './toast.service';
 import { Injectable } from "@angular/core";
 import { User } from "firebase";
 import { Router } from "@angular/router";
@@ -9,29 +10,32 @@ import { Platform } from "@ionic/angular";
 import * as firebase from 'firebase/app';
 
 
+
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   user: User;
-
+email:string;
   constructor(
     public afAuth: AngularFireAuth,
     public router: Router,
     private storage: Storage,
-    private plt: Platform
-  ) {
-    
-      this.afAuth.authState.subscribe(user => {
+    private plt: Platform,
+    private toast: ToastService
+  ) {  }
+
+ isLogged(){
+    this.afAuth.authState.subscribe(user => {
       if (user) {
         this.user = user;
         localStorage.setItem("user", JSON.stringify(this.user.email));
-        console.log(this.user.email)
+        console.log("*AuthService*login olan user maili: ",this.user.email)
       } else {
         localStorage.setItem("user", null);
       }
     });  
-  }
+  }   
 
   registerUser(value){
     return new Promise<any>((resolve, reject) => {
@@ -43,6 +47,7 @@ export class AuthService {
    }
    loginUser(email: string, password: string): Promise<firebase.auth.UserCredential>{
    return firebase.auth().signInWithEmailAndPassword(email,password)
+   
    /*  return new Promise<any>((resolve, reject) => {
       
       .then(
@@ -66,8 +71,30 @@ export class AuthService {
     })
   }
 
-  update(value) {
-
+  update(userName:string)  {
+    firebase.auth().currentUser.updateProfile({
+      
+      displayName:  userName,
+    }).then(() => {
+      console.log("başarılı")
+      this.toast.updateProfileToast()
+    }).catch((error) => {
+      return error;
+    })
+  }
+  
+  resetPass(email:string) {
+    return new Promise((resolve, reject) => {
+      if(firebase.auth().currentUser){
+        console.log( "kullanıcı var")
+      }else {
+        firebase.auth().sendPasswordResetEmail(email).then(() => {
+        resolve()
+        }).catch((error) => {
+          reject();
+        })
+      }
+    })
   }
 
 

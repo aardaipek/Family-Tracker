@@ -1,3 +1,4 @@
+import { ToastService } from './../services/toast.service';
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 import {
@@ -29,12 +30,14 @@ export class LoginPage implements OnInit {
     private navCtrl: NavController,
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    public router:Router
+    public router:Router,
+    private toast:ToastService
   ) {}
 
   ngOnInit() {
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        this.router.navigateByUrl('/tabs')
         console.log("user bu",user)
       } else {
         console.log("user yok")
@@ -72,12 +75,14 @@ export class LoginPage implements OnInit {
       }
     ]
   };
+  
 
   loginUser() {
     this.authService.loginUser(this.email,this.password).then(
       res => {
         //this.errorMessage = "";
         this.router.navigate(['tabs'])
+        this.toast.loginWelcomeToast(this.email);
         console.log(res);
       },
       err => {
@@ -86,9 +91,7 @@ export class LoginPage implements OnInit {
       
     );
   }
-  resetPassword(email:string): Promise<void> {
-    return firebase.auth().sendPasswordResetEmail(email);
-  }
+ 
   goToRegisterPage() {
     this.navCtrl.navigateForward("/register");
     
