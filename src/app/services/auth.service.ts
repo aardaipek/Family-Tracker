@@ -8,6 +8,8 @@ import { Storage } from "@ionic/storage";
 import { BehaviorSubject } from "rxjs";
 import { Platform } from "@ionic/angular";
 import * as firebase from 'firebase/app';
+import { AnyTxtRecord } from 'dns';
+import { snapshotChanges } from '@angular/fire/database';
 
 
 
@@ -24,6 +26,8 @@ email:string;
     private plt: Platform,
     private toast: ToastService
   ) {  }
+
+  
 
  isLogged(){
     this.afAuth.authState.subscribe(user => {
@@ -70,10 +74,24 @@ email:string;
       }
     })
   }
+ 
+  addProfilePhoto(photo:string) {
+      firebase.auth().currentUser.updateProfile({
+        photoURL : photo
+      }).then(() => {
+        this.toast.updateProfileToast()
+      }).catch((error) => {
+        return error;
+      })
+      firebase.storage().ref('/pp/'+new Date().toISOString()).putString(photo, 'data_url')
 
-  update(userName:string)  {
-    firebase.auth().currentUser.updateProfile({
       
+  }
+
+ 
+
+  update(userName:string,)  {
+    firebase.auth().currentUser.updateProfile({
       displayName:  userName,
     }).then(() => {
       console.log("başarılı")

@@ -5,7 +5,7 @@ import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import * as firebase from "firebase";
 import { AlertController } from "@ionic/angular";
-import { stringify } from '@angular/core/src/util';
+import { Camera, CameraOptions  } from '@ionic-native/camera/ngx';
 
 
 @Component({
@@ -18,12 +18,14 @@ export class Tab5Page implements OnInit {
   email:string;
   uid: any;
   userName : string;
+  currentImage: any;
   constructor(
     private navCtrl: NavController,
     private router: Router,
     private authService: AuthService,
     public alertController: AlertController,
-    public modalController: ModalController
+    public modalController: ModalController,
+    public camera:Camera
   ) {}
 
   ngOnInit() {
@@ -33,7 +35,8 @@ export class Tab5Page implements OnInit {
         console.log("  Email: " + profile.email);
         this.userName = profile.displayName
         this.email =  profile.email
-      
+        
+     
       });
     }
   }
@@ -59,6 +62,24 @@ export class Tab5Page implements OnInit {
         console.log(error);
       });
   }
+  takeSelfie() {
+    const options: CameraOptions = {
+      quality: 30,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      this.currentImage = 'data:image/jpeg;base64,' + imageData;
+      this.authService.addProfilePhoto(this.currentImage)
+    }, (err) => {
+     // Handle error
+     console.log("Camera issue:" + err);
+    });
+
+  }
+  
 
   goToEdit() {
     this.navCtrl.navigateForward('/edit-profile')

@@ -20,7 +20,7 @@ import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { Diagnostic } from "@ionic-native/diagnostic/ngx";
 import { BatteryStatus } from "@ionic-native/battery-status/ngx";
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { Camera } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,8 +46,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     Geolocation,
     Diagnostic,
     BatteryStatus,
-    AuthService
-  ],
+    AuthService,
+    Camera
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

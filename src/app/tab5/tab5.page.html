@@ -11,7 +11,7 @@
         </ion-col>
         <ion-col>
           <ion-avatar>
-            <img src="http://i.hizliresim.com/KqGGpZ.png">
+            <img src="{{currentImage}}">
           </ion-avatar>
         </ion-col>
         <ion-col>
@@ -47,6 +47,20 @@
             </ion-col>
           </ion-row>
         </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <ion-card style="margin-top:3em; padding-top:2em;">
+      <ion-card-content >
+        <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+          <ion-fab-button (click)="takeSelfie()">
+            <ion-icon name="camera"></ion-icon>
+          </ion-fab-button>
+        </ion-fab> 
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="currentImage">
+      <ion-card-content>
+          <img [src]="currentImage" >
       </ion-card-content>
     </ion-card>
     <ion-button style="margin-top:7em;" expand="block" color="light" (click)="goToDashboard()" routerDirection="root"> Abonelik </ion-button>

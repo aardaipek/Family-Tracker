@@ -29,7 +29,7 @@ export class ToastService {
   async updateProfileToast() {
     const toast = await this.toastController.create({
       message: 'Yaptığınız değişiklikler kaydedildi ',
-      duration: 9000,
+      duration: 4000,
       position: 'top'
     });
     toast.present();
