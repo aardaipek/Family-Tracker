@@ -35,9 +35,6 @@ import { Camera } from '@ionic-native/camera/ngx';
     AngularFireModule,
     AngularFireAuthModule,
     ReactiveFormsModule,
-    
-    
-
   ],
   providers: [
     StatusBar,

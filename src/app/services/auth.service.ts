@@ -8,8 +8,6 @@ import { Storage } from "@ionic/storage";
 import { BehaviorSubject } from "rxjs";
 import { Platform } from "@ionic/angular";
 import * as firebase from 'firebase/app';
-import { AnyTxtRecord } from 'dns';
-import { snapshotChanges } from '@angular/fire/database';
 
 
 
@@ -74,18 +72,38 @@ email:string;
       }
     })
   }
- 
-  addProfilePhoto(photo:string) {
+  urlPhoto(photo:string) {
+   firebase.storage().ref('/pp').child(photo).getDownloadURL().then((url)=>{
+      console.log("url li foto",url);
+      photo = url
+    }).catch((error) =>{
+    console.log(error);
+    })
+  }
+ /*   postPhoto(photo:string) {
+    firebase.database().ref('/Users/subscribed/PgfHbpaCaBScfuZjehF6KQPsYBO2/photoUrl').push( photo => {
+     console.log("post photo")
+      this.toast.updateProfileToast()
+    })
+  }  */
+  photoToFire(photo:any) {
+    firebase.storage().ref('/pp/'+photo.name+new Date().toISOString()).putString(photo, 'data_url')
+    firebase.storage().ref('/pp').child(photo).getDownloadURL().then( (url) => {
+      photo = url
+    })
+  } 
+  addProfilePhoto(url:string) {
       firebase.auth().currentUser.updateProfile({
-        photoURL : photo
+        photoURL : url
       }).then(() => {
         this.toast.updateProfileToast()
       }).catch((error) => {
         return error;
       })
-      firebase.storage().ref('/pp/'+new Date().toISOString()).putString(photo, 'data_url')
-
-      
+      firebase.storage().ref('/pp/'+new Date().toISOString()).putString(url, 'data_url')
+    /*   firebase.storage().ref('/pp').child('99').getDownloadURL().then((url) => {
+        photo = url
+      }) */   
   }
 
  

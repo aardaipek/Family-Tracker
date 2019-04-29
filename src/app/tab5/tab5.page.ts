@@ -19,6 +19,8 @@ export class Tab5Page implements OnInit {
   uid: any;
   userName : string;
   currentImage: any;
+  url:string;
+  foto:any;
   constructor(
     private navCtrl: NavController,
     private router: Router,
@@ -35,11 +37,28 @@ export class Tab5Page implements OnInit {
         console.log("  Email: " + profile.email);
         this.userName = profile.displayName
         this.email =  profile.email
-        
-     
       });
     }
-  }
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.fbGetUrl(user.uid).then(result2 =>{
+          this.url = result2.val()
+        })
+       /*  firebase.storage().ref('').child('pp').getDownloadURL().then(url=>{
+          console.log("aasd",url);
+          this.url = url
+         console.log("urldeneme:", this.url);
+
+        })
+        .catch(function(error) {
+        console.log(error);
+        }) */
+ 
+      }
+    });
+
+
+    }
  
   async logoutAlert() {
     const alert = await this.alertController.create({
@@ -49,8 +68,53 @@ export class Tab5Page implements OnInit {
 
     await alert.present();
   }
+  /* photoToUrl() {
+    this.authService.urlPhoto(this.foto)
+    this.authService.addProfilePhoto(this.foto)
+  } */
 
-  
+  postPhoto(url:string){
+    firebase.storage().ref('/pp').child(this.currentImage).put(url).on('state_chanced',(snapshot) =>{
+      firebase.database().ref('/Users/subscribed/PgfHbpaCaBScfuZjehF6KQPsYBO2/').child('photoUrl').set(url)
+    })
+    /* .then((snapshot)=>{
+      console.log(snapshot.downloadURL);
+      
+      firebase.database().ref('/Users/subscribed/PgfHbpaCaBScfuZjehF6KQPsYBO2/photoUrl').push(snapshot.downloadURL)
+    }) */
+  }
+  fbGetUrl(uid){
+    return firebase.database().ref('/Users/subscribed/'+ uid+'/photoUrl/').child("").once('value')
+  }
+  urlPhoto(t:string) {
+    firebase.storage().ref('/pp').child(t).getDownloadURL().then(url => {
+      console.log("url li foto", JSON.stringify(url));
+
+      //console.log(url)
+      firebase.database().ref('/Users/subscribed/PgfHbpaCaBScfuZjehF6KQPsYBO2/').child('photoUrl').set(url)
+    }).catch((error) => {
+      console.log(error);
+    })
+  }
+  takeSelfie() {
+    const options: CameraOptions = {
+      quality: 30,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      this.currentImage = 'data:image/jpeg;base64,' + imageData;
+      this.authService.photoToFire(this.currentImage)
+      this.urlPhoto(this.currentImage)
+      
+    }, (err) => {
+     // Handle error
+     console.log("Camera issue:" + err);
+    });
+
+  }
+
   logout() {
     this.authService
       .logoutUser()
@@ -61,25 +125,9 @@ export class Tab5Page implements OnInit {
       .catch(error => {
         console.log(error);
       });
+      this.postPhoto(this.currentImage) 
   }
-  takeSelfie() {
-    const options: CameraOptions = {
-      quality: 30,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
 
-    }
-    this.camera.getPicture(options).then((imageData) => {
-      this.currentImage = 'data:image/jpeg;base64,' + imageData;
-      this.authService.addProfilePhoto(this.currentImage)
-    }, (err) => {
-     // Handle error
-     console.log("Camera issue:" + err);
-    });
-
-  }
-  
 
   goToEdit() {
     this.navCtrl.navigateForward('/edit-profile')

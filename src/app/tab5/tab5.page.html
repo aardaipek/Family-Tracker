@@ -7,7 +7,6 @@
     <ion-grid>
       <ion-row align-items-center>
         <ion-col>
-
         </ion-col>
         <ion-col>
           <ion-avatar>
@@ -15,7 +14,9 @@
           </ion-avatar>
         </ion-col>
         <ion-col>
-
+            <ion-fab-button  size="small" (click)="takeSelfie()">
+                <ion-icon   name="camera"></ion-icon>
+              </ion-fab-button>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -49,7 +50,7 @@
         </ion-grid>
       </ion-card-content>
     </ion-card>
-    <ion-card style="margin-top:3em; padding-top:2em;">
+   <!--  <ion-card style="margin-top:3em; padding-top:2em;">
       <ion-card-content >
         <ion-fab vertical="bottom" horizontal="center" slot="fixed">
           <ion-fab-button (click)="takeSelfie()">
@@ -57,12 +58,12 @@
           </ion-fab-button>
         </ion-fab> 
       </ion-card-content>
-    </ion-card>
+    </ion-card> 
     <ion-card *ngIf="currentImage">
       <ion-card-content>
           <img [src]="currentImage" >
       </ion-card-content>
-    </ion-card>
+    </ion-card>-->
     <ion-button style="margin-top:7em;" expand="block" color="light" (click)="goToDashboard()" routerDirection="root"> Abonelik </ion-button>
     <ion-item-divider style=" margin-bottom:0.1em;" color="light"></ion-item-divider>
     <ion-row>

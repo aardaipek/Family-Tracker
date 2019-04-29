@@ -44,7 +44,6 @@ export class LoginPage implements OnInit {
       }
     });
    
-    
     this.validations_form = this.formBuilder.group({
       email: new FormControl(
         "",
@@ -78,7 +77,7 @@ export class LoginPage implements OnInit {
   
 
   loginUser() {
-    this.authService.loginUser(this.email,this.password).then(
+    this.authService.loginUser("arda@arda.com","123456").then(
       res => {
         //this.errorMessage = "";
         this.router.navigate(['tabs'])
