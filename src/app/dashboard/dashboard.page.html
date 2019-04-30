@@ -7,7 +7,8 @@
   </ion-toolbar>
 </ion-header>
 <ion-content >
-  <ion-list>
+    
+  <ion-list *ngIf= "monthlySub">
       <ion-card >
           <ion-card-header>
               <ion-card-title >Abonelik Bilgilerin</ion-card-title>
@@ -22,71 +23,42 @@
               <ion-label>Mail : arda@arda.com </ion-label>
             </ion-row>
             <ion-row> 
-            <ion-label>Plan Ayrıntıları : 2+ Kullanıcı </ion-label>
+            <ion-label>Plan Ayrıntıları : {{monthlySub}} </ion-label>
             <ion-button  color="tertiary"  fill="outline" size="small" >Kullanıcı Arttır</ion-button> 
             </ion-row>
           </ion-grid>
           </ion-card-content>
         </ion-card>      
   </ion-list>
+  <ion-list *ngIf= "!monthlySub">
+    <ion-card>
+        <ion-card-header>
+          <ion-card-title >Aboneliği Başlat</ion-card-title>
+      </ion-card-header>
+      <ion-item-divider color= "medium"></ion-item-divider>
+      <ion-card-content>
+          <ion-grid>
+              <ion-row> 
+                <ion-button  color="tertiary"  fill="outline" size="large" (click) ="buy(product.productId)" >Aylık Aboneliği Başlat {{product.price}}</ion-button> 
+          </ion-row>
+          </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+  <ion-list>
+    <ion-card *ngFor="let product of products">
+      <ion-card-header>{{product.title}}</ion-card-header>
+      <ion-card-content>{{product.description}}</ion-card-content>
 
+    </ion-card>
+  </ion-list>
+
+  <ion-list *ngIf="monthlySub">
   <ion-item-divider color="medium"></ion-item-divider>
         <ion-button padding  color="primary" fill="outline" expand="block" >Fatura Ayrıntıları</ion-button> 
       <ion-button padding  color="danger" fill="outline" expand="block" >Aboneliği Sonlandır </ion-button> 
 <ion-item-divider style="margin-top:1.6em" color="medium"></ion-item-divider>
 <br><br><br>
-
-
-
-
-
-
-<ion-list>
-    <ion-item-sliding >
-        <ion-item href="/tabs/tab2">
-          <ion-label>
-            <h2>Arda Ipek</h2>
-          </ion-label>
-        </ion-item> 
-        <ion-item-options side="end">
-          <ion-item-option color="danger">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
-      </ion-item-sliding>
-      <ion-item-sliding >
-        <ion-item href="/tabs/tab2">
-          <ion-label>
-            <h2>İsmail Abi</h2>
-          </ion-label>
-        </ion-item> 
-        <ion-item-options side="end">
-          <ion-item-option color="danger">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
-      </ion-item-sliding>
-      <ion-item-sliding >
-        <ion-item href="/tabs/tab2">
-          <ion-label>
-            <h2>Erdal Bakkal</h2>
-          </ion-label>
-        </ion-item> 
-        <ion-item-options side="end">
-          <ion-item-option color="danger">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
-      </ion-item-sliding>
 </ion-list>
-
-
-
-
-
-
-
-
-
 
 </ion-content>

@@ -77,7 +77,7 @@ export class LoginPage implements OnInit {
   
 
   loginUser() {
-    this.authService.loginUser("arda@arda.com","123456").then(
+    this.authService.loginUser(this.email,this.password).then(
       res => {
         //this.errorMessage = "";
         this.router.navigate(['tabs'])
@@ -95,7 +95,5 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateForward("/register");
     
   }
-  goToOtherPage() {
-    this.navCtrl.navigateForward("/dashboard");
-  }
+
 }

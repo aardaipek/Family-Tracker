@@ -21,6 +21,7 @@ import { Diagnostic } from "@ionic-native/diagnostic/ngx";
 import { BatteryStatus } from "@ionic-native/battery-status/ngx";
 import { ReactiveFormsModule } from '@angular/forms';
 import { Camera } from '@ionic-native/camera/ngx';
+import { InAppPurchase} from '@ionic-native/in-app-purchase/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,7 +45,8 @@ import { Camera } from '@ionic-native/camera/ngx';
     Diagnostic,
     BatteryStatus,
     AuthService,
-    Camera
+    Camera,
+    InAppPurchase
     ],
   bootstrap: [AppComponent]
 })

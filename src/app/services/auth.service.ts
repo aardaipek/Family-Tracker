@@ -86,12 +86,7 @@ email:string;
       this.toast.updateProfileToast()
     })
   }  */
-  photoToFire(photo:any) {
-    firebase.storage().ref('/pp/'+photo.name+new Date().toISOString()).putString(photo, 'data_url')
-    firebase.storage().ref('/pp').child(photo).getDownloadURL().then( (url) => {
-      photo = url
-    })
-  } 
+  
   addProfilePhoto(url:string) {
       firebase.auth().currentUser.updateProfile({
         photoURL : url
