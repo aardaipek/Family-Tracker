@@ -100,7 +100,16 @@ email:string;
         photo = url
       }) */   
   }
-
+inviteUser(email:string){
+  this.afAuth.authState.subscribe(user => {
+    if (user) {
+        firebase.database().ref('/Users/subscribed').push(uid => {
+          
+        })
+    } else {
+    }
+  }); 
+ }
  
 
   update(userName:string,)  {

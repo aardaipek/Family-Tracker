@@ -5,15 +5,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { EditProfilePage } from './edit-profile.page';
+import { ResetPassPage } from './reset-pass.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: EditProfilePage
+    component: ResetPassPage
   }
- 
-]
+];
 
 @NgModule({
   imports: [
@@ -22,6 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [EditProfilePage]
+  declarations: [ResetPassPage]
 })
-export class EditProfilePageModule {}
+export class ResetPassPageModule {}

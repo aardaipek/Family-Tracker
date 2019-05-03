@@ -1,6 +1,6 @@
 import { ToastService } from "./../services/toast.service";
 import { Component, OnInit } from "@angular/core";
-import { NavController, ModalController } from "@ionic/angular";
+import { NavController, ModalController, IonRefresher } from "@ionic/angular";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import * as firebase from "firebase";
@@ -31,7 +31,7 @@ export class Tab5Page implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (firebase.auth().currentUser != null) {
+  if (firebase.auth().currentUser != null) {
       firebase.auth().currentUser.providerData.forEach(profile => {
         console.log("  UserName: " + profile.displayName);
         console.log("  Email: " + profile.email);
@@ -39,11 +39,25 @@ export class Tab5Page implements OnInit {
         this.email = profile.email;
         this.image = profile.photoURL
       });
-    }
-    
-
-
+    } 
   }
+  ionViewWillEnter() {
+    if (firebase.auth().currentUser != null) {
+      firebase.auth().currentUser.providerData.forEach(profile => {
+        
+        this.userName = profile.displayName;
+        this.email = profile.email;
+        this.image = profile.photoURL
+      });
+    }
+  }
+
+  /* logSomethingToConsole(ref){
+
+    firebase.database.add
+    let refrefsher : IonRefresher = ref 
+    refrefsher.cancel();
+  } */
 
   async logoutAlert() {
     const alert = await this.alertController.create({

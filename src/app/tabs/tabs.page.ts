@@ -24,7 +24,13 @@ export class TabsPage {
   ) {}
 
   ngOnInit() {
- 
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+       
+      } else {
+        this.router.navigateByUrl('/login')
+      }
+    });
     
   }
  
