@@ -36,6 +36,7 @@
     "cordova-plugin-battery-status": "2.0.2",
     "cordova-plugin-camera": "4.0.3",
     "cordova-plugin-geolocation": "4.0.1",
+    "cordova-plugin-inapppurchase": "^1.2.0",
     "cordova-plugin-statusbar": "2.4.2",
     "cordova.plugins.diagnostic": "4.0.12",
     "core-js": "^2.5.4",

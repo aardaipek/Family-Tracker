@@ -5,49 +5,44 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-list>
+<ion-content no-padding>
+  <ion-list style="padding:1em">
 
-   <!--  <ion-input [(ngModel)]="userName" placeholder="Kullanıcı Adı"></ion-input> -->
+    <!--  <ion-input [(ngModel)]="userName" placeholder="Kullanıcı Adı"></ion-input> -->
 
     <ion-input [(ngModel)]="mail" placeholder="Mail Adresi"></ion-input>
 
     <ion-button color="light" expand="block" (click)="memberAdd()">Kullanıcı Ekle</ion-button>
   </ion-list>
-  <ion-list>
+  <ion-list style="padding:1em"  *ngIf="members">
     <ion-list-header>Takip Edilen Kullanıcılar</ion-list-header>
     <ion-item-divider color="medium"></ion-item-divider>
-    <ion-card>
+    <ion-card *ngFor="let member of members">
       <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-label color="light" style="margin-right:2em;">Arda İpek</ion-label>
-            <ion-label color="light">test@test.com</ion-label>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-label color="light" style="margin-right:2em;">İsmail Abi</ion-label>
-            <ion-label color="light">ismail@test.com</ion-label>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-label color="light" style="margin-right:2em;">Mecnun</ion-label>
-            <ion-label color="light">mecnun@test.com</ion-label>
+            <ion-col size="6">
+              <ion-thumbnail>
+                <ion-img [src]="member.photo"></ion-img>
+              </ion-thumbnail>
+            </ion-col>
+            <div id="memberDiv">
+              <ion-label color="light">{{member.username}}</ion-label>
+              <ion-label style="padding-top:5px" color="light">{{member.email}}</ion-label>
+            </div>
           </ion-row>
         </ion-grid>
       </ion-card-content>
     </ion-card>
   </ion-list>
-  <ion-button expand="block" color="tertiary" (click)="goToMap()" routerDirection="root"> Map</ion-button>
-
+  <ion-button style="margin:1em" expand="block" color="tertiary" (click)="getMembers()" routerDirection="root">Members</ion-button>
+<br><br>
+<div #map id="map">
+    
+  </div>
+  <ion-fab *ngIf="!ionScrollStart"  vertical="bottom" horizontal="start" slot="fixed">
+      <ion-fab-button (click)="scrollToTop()"> 
+        <ion-icon name="arrow-dropup"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 </ion-content>

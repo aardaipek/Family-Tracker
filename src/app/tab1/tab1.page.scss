@@ -31,3 +31,22 @@ ion-toolbar {
   --background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
   --background: linear-gradient(to right, #eaafc8, #654ea3);
 }
+
+#memberDiv {
+flex-direction: column;
+display: flex
+}
+ion-img {
+  height:60px;
+  width:65px;
+  border-radius: 40px;
+}
+
+#map{
+  height: 110% !important;
+  z-index: 1;
+}
+ion-fab-button {
+  z-index: 2;
+}
+

@@ -1,6 +1,6 @@
 import { ToastService } from "./../services/toast.service";
 import { Component, OnInit } from "@angular/core";
-import { NavController, ModalController, IonRefresher } from "@ionic/angular";
+import { NavController, ModalController } from "@ionic/angular";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import * as firebase from "firebase";
@@ -41,6 +41,7 @@ export class Tab5Page implements OnInit {
       });
     } 
   }
+  //Çalışmıyor
   ionViewWillEnter() {
     if (firebase.auth().currentUser != null) {
       firebase.auth().currentUser.providerData.forEach(profile => {
@@ -74,6 +75,7 @@ export class Tab5Page implements OnInit {
       .child("photoUrl")
       .once("value");
   }
+  
   photoToFire(arda: any) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -102,9 +104,9 @@ export class Tab5Page implements OnInit {
   }
   takeSelfie() {
     const options: CameraOptions = {
-      quality: 30,
+      quality: 10,
       destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.PNG,
+      encodingType: this.camera.EncodingType.JPEG,
       correctOrientation: true,
       mediaType: this.camera.MediaType.PICTURE
     };

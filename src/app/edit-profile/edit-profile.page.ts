@@ -22,7 +22,13 @@ export class EditProfilePage implements OnInit {
   ngOnInit() {}
 
   up(userName) {
-    this.authService.update(this.userName)
-   
-  }
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.authService.update(this.userName,user.uid)
+      }else{
+
+      }
+  })
+}
+
 }

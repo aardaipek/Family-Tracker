@@ -101,6 +101,7 @@ email:string;
       }) */   
   }
 inviteUser(email:string){
+  
   this.afAuth.authState.subscribe(user => {
     if (user) {
         firebase.database().ref('/Users/subscribed').push(uid => {
@@ -112,7 +113,7 @@ inviteUser(email:string){
  }
  
 
-  update(userName:string,)  {
+  update(userName:string,uid:any)  {
     firebase.auth().currentUser.updateProfile({
       displayName:  userName,
     }).then(() => {
@@ -121,6 +122,7 @@ inviteUser(email:string){
     }).catch((error) => {
       return error;
     })
+    firebase.database().ref("/Users/subscribed/" + uid).child("username").set(userName); 
   }
   
   resetPass(email:string) {

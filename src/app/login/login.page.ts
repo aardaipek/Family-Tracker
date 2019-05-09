@@ -43,6 +43,8 @@ export class LoginPage implements OnInit {
         console.log("user yok")
       }
     });
+
+   
    
     this.validations_form = this.formBuilder.group({
       email: new FormControl(
