@@ -7,19 +7,19 @@
     <ion-list-header>Önemli Konumları Belirleyin</ion-list-header>
     <ion-item-divider color="light"></ion-item-divider>
     <ion-list>
-      <ion-input #areaName placeholder="Konum Adı"></ion-input>
+      <ion-input [(ngModel)]="areaName"  placeholder="Konum Adı"></ion-input>
       <ion-row>
         <ion-col>
-            <ion-label color="light">Şimdilik</ion-label>
+            <ion-label color="light">{{selectedUser}}</ion-label>
             <ion-button style="float:right" color="light"  shape="round" fill="outline" (click)="selectUserActionSheet()" >Kullanıcı Seç</ion-button>
         </ion-col>
       </ion-row>
     
     </ion-list>
-    <ion-button color="light" (click)="updateArea(areaName.value)" expand="block">Kaydet</ion-button>
+    <!-- <ion-button color="light" (click)="updateArea(areaName.value)" expand="block">Kaydet</ion-button> -->
   </div>
-  <ion-list-header *ngIf ="area">Belirlediğin Alanlar</ion-list-header>
-  <ion-item-divider  *ngIf ="area" class="divider" color="light"></ion-item-divider>
+  <ion-list-header >Belirlediğin Alanlar</ion-list-header>
+  <ion-item-divider   class="divider" color="light"></ion-item-divider>
   <div>
     <ion-list>
       <ion-card *ngFor="let area of area">

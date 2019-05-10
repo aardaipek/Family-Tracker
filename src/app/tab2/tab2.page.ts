@@ -1,10 +1,10 @@
-import { Component, ViewChild, ElementRef } from "@angular/core";
+import { Component, ViewChild, ElementRef, ChangeDetectorRef } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
 import * as firebase from "firebase";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { AlertController } from "@ionic/angular";
 import { ActionSheetController } from "@ionic/angular";
-import { container } from '@angular/core/src/render3';
+import { ToastService } from "./../services/toast.service";
 
 
 declare var google;
@@ -21,69 +21,111 @@ export class Tab2Page {
     public alertController: AlertController,
     public dbs: AngularFireDatabase,
     public geo: Geolocation,
-    public actionSheet: ActionSheetController
+    public actionSheet: ActionSheetController,
+    private toast: ToastService,
+    private f: ChangeDetectorRef
   ) {}
 
   curLat: any;
   curLng: any;
   uid: string;
+  areaLat:any;
+  areaLng:any;
+  parentUID: string;
   userName: string;
   userPhoto: string;
   areaName: string;
   clickEvent: any;
-  areaUniqueKey:any;
-  area:any[] = [];
+  areaUniqueKey: any;
+  area: any[] = [];
+  buttons: any[] = [];
+  selectedUser: string = "Seçili Yok";
 
   ngOnInit() {
     firebase.auth().onAuthStateChanged(user => {
       this.uid = user.uid;
       this.loadMap(user.photoURL, user.displayName);
       if (user) {
-        this.sendLocation(user.uid);
+        /*         this.sendLocation(user.uid);*/
+        this.sendLocationMember(user.uid);
       } else {
       }
     });
   }
 
- 
- 
+  selectUserActionSheet() {
+    this.dbs
+      .list("/Users/subscribed/" + this.uid + "/members")
+      .snapshotChanges()
+      .subscribe(items => {
+        let container = [];
+        items.forEach(item => {
+          let email = item.payload.child("email").toJSON() as string;
+          let areaName = item.payload.child("name").toJSON() as string;
+          container.push({
+            text: email,
+            icon: "person",
+            handler: this.onButtonClick.bind(this, email)
+          });
+        });
+        this.buttons = container;
+        this.showActionsheet();
+      });
+  }
 
-  async selectUserActionSheet() {
-    let userEmail:string;
-   //TODO: firebaseden kullanıcılar çekilip gösterilecek
-
-   //kullanıcıları çekme
-   this.dbs.list("/Users/subscribed/" + this.uid+ "/areas").snapshotChanges().subscribe(items => {
-    items.forEach(item => {
-      let container = {
-        areaName:"",
-        email:"",
-        username: ""
-      }
-      let email = item.payload.child("email").toJSON() as string
-      let areaName = item.payload.child("name").toJSON() as string
-      container.areaName = areaName
-      container.email = email
-      userEmail = container.email;
-      this.area.push(container)
-    })
-    })
- 
- 
+  async showActionsheet() {
     const actionSheet = await this.actionSheet.create({
-      header: 'Kullanıcılar',
-      buttons: [
-        {
-        text: userEmail,
-        icon: 'person',
-        handler: () => {
-       
-        }
-      }, 
-    ]
+      header: "Kullanıcılar",
+      buttons: this.buttons
     });
     await actionSheet.present();
   }
+
+  onButtonClick(value): any {
+    this.selectedUser = value;
+    this.updateArea(this.areaName, this.selectedUser);
+    console.log(this.selectedUser);
+  }
+
+  updateArea(areaName: string, name: string) {
+    let area = firebase
+      .database()
+      .ref("/Users/subscribed/" + this.uid + "/areas/");
+      this.map.addListener("click", event => {
+        this.clickEvent = event.latLng.toJSON();
+        let lat = this.clickEvent["lat"];
+        let lng = this.clickEvent["lng"];
+        this.areaLat = lat
+        this.areaLng = lng
+        // let area = firebase.database().ref("/Users/subscribed/" + this.uid + "/areas/").push({ lat: lat, lng: lng });
+        // this.areaUniqueKey = area.key;
+        this.placeMarkerAndPanTo(this.clickEvent, this.map,areaName);
+
+    });
+        area.push({
+          lat: this.areaLat,
+          lng: this.areaLng,
+          name: areaName,
+          user: name
+        });
+        this.toast.areaNotificationToast(areaName)
+      console.log("işlem başarılı ==>" ,area.toJSON())     
+   this.f.detectChanges()
+  }
+  mapClick() {
+  this.map.addListener("click", event => {
+    this.clickEvent = event.latLng.toJSON();
+    let lat = this.clickEvent["lat"];
+    let lng = this.clickEvent["lng"];
+    this.areaLat = lat
+    this.areaLng = lng
+    
+    // let area = firebase.database().ref("/Users/subscribed/" + this.uid + "/areas/").push({ lat: lat, lng: lng });
+    // this.areaUniqueKey = area.key;
+    this.placeMarkerAndPanTo(this.clickEvent, this.map,this.areaName);
+
+});
+}
 
   //Kullanılmıyor
   photoUrl(uid) {
@@ -106,34 +148,55 @@ export class Tab2Page {
         });
     });
   }
-
-  /* updateLocation(x: any, y: any, uid:any) {
-      firebase.database().ref('/Users/subscribed/'+ uid + '/locations').update({ lat: x, lng: y })
-      let userLoc = this.dbs.list('/Users/subscribed/'+ uid + '/locations')
-          userLoc.snapshotChanges().subscribe(item => {
-            let xlat;
-            let ylng;
-            let jsonObject ={x:0,y:0};
-            item.forEach(element => {
-              if(element.key === "lat") {
-              xlat = element.payload.toJSON()
-              }else if(element.key === "lng") {
-                ylng = element.payload.toJSON()
-              }
-            })
-            jsonObject.x = xlat;
-            jsonObject.y = ylng
-          })
-    } */
-  /* addArea(areaName:string) {
-      firebase
+  GetParentUid(uid) {
+    return firebase
       .database()
-      .ref('/Users/subscribed/'+ this.uid + '/areas')
-      .update({lat: , lng: , name: areaName})
-}  */
-
+      .ref("/Users/relations/")
+      .child(uid)
+      .once("value")
+     
+  }
+  sendLocationMember(uid: any) {
+    this.geo.watchPosition().subscribe(data => {
+      this.GetParentUid(uid) .then(result => {
+        this.parentUID = result.val();
+        if ( this.parentUID != null ||  this.parentUID != undefined) {
+          this.dbs
+          .list(
+            "/Users/subscribed/" + this.parentUID  + "/members/" + uid + "/locations"
+          )
+          .snapshotChanges()
+          .subscribe(item => {
+            firebase
+              .database()
+              .ref(
+                "/Users/subscribed/" + this.parentUID + "/members/" + uid + "/locations"
+              )
+              .update({
+                lat: data.coords.latitude,
+                lng: data.coords.longitude
+              });
+          });
+        } else {
+          /*  */
+          this.dbs
+            .list("/Users/subscribed/" + uid + "/locations")
+            .snapshotChanges()
+            .subscribe(item => {
+              firebase
+                .database()
+                .ref("/Users/subscribed/" + uid + "/locations")
+                .update({
+                  lat: data.coords.latitude,
+                  lng: data.coords.longitude
+                });
+            });
+        }
+      });
+   
+    });
+  }
   loadMap(photo: string, name: string) {
-    let clickLatLng;
     this.geo.getCurrentPosition().then(
       position => {
         this.curLat = position.coords.latitude;
@@ -154,15 +217,7 @@ export class Tab2Page {
           mapOptions
         );
         
-          this.map.addListener("click", event => {
-            this.clickEvent = event.latLng.toJSON()
-            let lat = this.clickEvent['lat']
-            let lng = this.clickEvent['lng']
-            let area = firebase.database().ref('/Users/subscribed/' + this.uid + '/areas/').push({ lat: lat, lng: lng })
-            this.areaUniqueKey = area.key
-    
-            this.placeMarkerAndPanTo(this.clickEvent, this.map);
-          });
+          this.mapClick()
         this.marker(this.map, name, photo);
       },
       err => {
@@ -171,13 +226,16 @@ export class Tab2Page {
     );
   }
   //çizilmiş bir circle üzerinde yeni bir marker çizmiyor
-  placeMarkerAndPanTo(latLng, map) {
+  placeMarkerAndPanTo(latLng, map,areaALiasName) {
     var markers = new google.maps.Marker({
       position: latLng,
       map: map
     });
     map.panTo(latLng);
     this.circle(latLng, this.uid);
+    let content ="Bölge Adı :" + areaALiasName;
+    this.addInfoWindow(markers,content)
+    
   }
 
   circle(latlng: any, uid: any) {
@@ -191,11 +249,6 @@ export class Tab2Page {
       center: latlng,
       radius: 150 //yarıçap
     });
-  
-  }
-
-  updateArea(areaName:string) {
-  firebase.database().ref('/Users/subscribed/' + this.uid + '/areas/'+this.areaUniqueKey).update({name: areaName})  
   }
 
   marker(map: any, name: string, photo: string) {
@@ -235,4 +288,29 @@ export class Tab2Page {
 
     await alert.present();
   }
+
+  /* updateLocation(x: any, y: any, uid:any) {
+      firebase.database().ref('/Users/subscribed/'+ uid + '/locations').update({ lat: x, lng: y })
+      let userLoc = this.dbs.list('/Users/subscribed/'+ uid + '/locations')
+          userLoc.snapshotChanges().subscribe(item => {
+            let xlat;
+            let ylng;
+            let jsonObject ={x:0,y:0};
+            item.forEach(element => {
+              if(element.key === "lat") {
+              xlat = element.payload.toJSON()
+              }else if(element.key === "lng") {
+                ylng = element.payload.toJSON()
+              }
+            })
+            jsonObject.x = xlat;
+            jsonObject.y = ylng
+          })
+    } */
+  /* addArea(areaName:string) {
+      firebase
+      .database()
+      .ref('/Users/subscribed/'+ this.uid + '/areas')
+      .update({lat: , lng: , name: areaName})
+}  */
 }

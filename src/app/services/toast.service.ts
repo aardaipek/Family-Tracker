@@ -51,5 +51,13 @@ export class ToastService {
     });
     toast.present();
   }
+  async areaNotificationToast(text:string) {
+    const toast = await this.toastController.create({
+      message: 'Belirlediğiniz bölge "' +text+ '" adıyla eklenmiştir',
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
+  }
 
 }

@@ -1,5 +1,5 @@
 import { ToastService } from "./../services/toast.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit,NgZone } from "@angular/core";
 import { NavController, ModalController } from "@ionic/angular";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
@@ -19,6 +19,7 @@ export class Tab5Page implements OnInit {
   userName: string;
   currentImage: any;
   image:any
+  address: any []=[]
 
   constructor(
     private navCtrl: NavController,
@@ -27,7 +28,8 @@ export class Tab5Page implements OnInit {
     public alertController: AlertController,
     public modalController: ModalController,
     public camera: Camera,
-    private toast: ToastService
+    private toast: ToastService,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
@@ -38,8 +40,27 @@ export class Tab5Page implements OnInit {
         this.userName = profile.displayName;
         this.email = profile.email;
         this.image = profile.photoURL
+
       });
     } 
+    firebase.database().ref("/Users/subscribed/" + this.uid + "/areas/").once('value').then((snapshot)=>{
+      snapshot.forEach(items =>{
+       let containerData = {
+         areaName:"",
+         userName:"",
+        }
+        let areaName = items.child("email").toJSON() as string
+        let userName = items.child("username").toJSON() as string
+        containerData.areaName =areaName
+        containerData.userName = userName
+        this.address.push(containerData)
+        console.log(this.address)
+      })
+   })
+  this.ngZone.run(()=> {
+  console.log("ngZone : success");
+  
+})
   }
   //Çalışmıyor
   ionViewWillEnter() {
