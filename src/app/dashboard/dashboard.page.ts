@@ -15,10 +15,11 @@ import { InAppPurchase } from '@ionic-native/in-app-purchase/ngx';
 })
 export class DashboardPage implements OnInit {
     title:string = "Aboneliğim"
-
+    uid:string;
     products = [];
-    monthlySub = false
+    monthlySub = true
     previousPurchases = [];
+    membersData = []
 
   constructor( private authService: AuthService, private plt: Platform, private iap:InAppPurchase, private toast:ToastService) {
 
@@ -35,7 +36,34 @@ export class DashboardPage implements OnInit {
 
 }
 
-  ngOnInit() {}
+  ngOnInit() {
+    firebase.auth().onAuthStateChanged(user => {
+      this.uid = user.uid;
+    })
+    this.membersOfUser()
+  }
+
+
+
+  membersOfUser(){
+    firebase.database().ref("/Users/subscribed/" + this.uid+ "/members").once('value').then((snapshot)=>{
+      snapshot.forEach(items =>{
+       let containerData = {
+         photo:"", 
+         email:"",
+         username: ""
+        }
+        let email = items.child("email").toJSON() as string
+        let photo = items.child("photoUrl").toJSON() as string
+        let memberUserName = items.child("username").toJSON() as string
+        containerData.photo = photo
+        containerData.email =email
+        containerData.username = memberUserName
+        this.membersData.push(containerData)
+      })
+   })
+
+  }
 
    buy(product){
     firebase.auth().onAuthStateChanged((user) => {

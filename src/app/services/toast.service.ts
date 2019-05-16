@@ -20,7 +20,7 @@ export class ToastService {
   async resetPasswordToast(text:string) {
     const toast = await this.toastController.create({
       message: 'Şifre sıfırlamak için gerekenler  ' +text+ ' adresine gönderildi.',
-      duration: 9000,
+      duration: 5000,
       position: 'top'
     });
     toast.present();
@@ -29,7 +29,7 @@ export class ToastService {
   async monthlySubToast(text:string) {
     const toast = await this.toastController.create({
       message: 'Satın almanız için teşekkür ederiz. ' +text+ '. Aboneliğiniz başlamıştır',
-      duration: 9000,
+      duration: 5000,
       position: 'top'
     });
     toast.present();
@@ -37,7 +37,7 @@ export class ToastService {
   async notLoginToast() {
     const toast = await this.toastController.create({
       message: 'Önce giriş yapmalısınız',
-      duration: 9000,
+      duration: 5000,
       position: 'top'
     });
     toast.present();

@@ -38,7 +38,7 @@ export class LoginPage implements OnInit {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.router.navigateByUrl('/tabs')
-        console.log("user bu",user)
+        console.log("log user =>",user)
       } else {
         console.log("user yok")
       }
@@ -56,7 +56,7 @@ export class LoginPage implements OnInit {
       ),
       password: new FormControl(
         "",
-        Validators.compose([Validators.minLength(5), Validators.required])
+        Validators.compose([Validators.minLength(4), Validators.required])
       )
     });
 

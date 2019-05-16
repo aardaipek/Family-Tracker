@@ -11,13 +11,11 @@ ion-label {
 ion-list-header {
   text-align: center !important;
 }
-
 ion-input {
   background-color: transparent !important;
   margin-bottom: 1em;
 }
 ion-item-divider {
-  margin-top: 0px;
   min-height: 1px !important;
 }
 
@@ -43,11 +41,17 @@ ion-img {
 }
 
 #map{
-  border-radius: 15px 15px 0px 0px;
+  border-radius: 17px 17px 0px 0px;
     height: 100% !important;
     z-index: 1;
 }
 ion-fab-button {
     z-index: 2;
+}
+ion-toggle {
+  margin-top: 10px;
+}
+ion-card{
+  border-radius: 20px
 }
 

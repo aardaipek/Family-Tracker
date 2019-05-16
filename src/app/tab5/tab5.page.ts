@@ -20,6 +20,7 @@ export class Tab5Page implements OnInit {
   currentImage: any;
   image:any
   address: any []=[]
+  parentUid:string;
 
   constructor(
     private navCtrl: NavController,
@@ -35,52 +36,38 @@ export class Tab5Page implements OnInit {
   ngOnInit() {
   if (firebase.auth().currentUser != null) {
       firebase.auth().currentUser.providerData.forEach(profile => {
-        console.log("  UserName: " + profile.displayName);
-        console.log("  Email: " + profile.email);
         this.userName = profile.displayName;
         this.email = profile.email;
         this.image = profile.photoURL
 
       });
     } 
-    firebase.database().ref("/Users/subscribed/" + this.uid + "/areas/").once('value').then((snapshot)=>{
+    firebase.auth().onAuthStateChanged(user => {
+      this.uid = user.uid
+      this.getUserArea()
+      this.getParentUid(user.uid)
+      this.ard()
+    })
+  
+  
+  }
+
+  getUserArea(){
+    firebase.database().ref("/Users/subscribed/" + this.uid+ "/areas").once('value').then((snapshot)=>{
       snapshot.forEach(items =>{
        let containerData = {
-         areaName:"",
-         userName:"",
+         email:"",
+         username: ""
         }
-        let areaName = items.child("email").toJSON() as string
-        let userName = items.child("username").toJSON() as string
-        containerData.areaName =areaName
-        containerData.userName = userName
+        let email = items.child("user").toJSON() as string
+        let memberUserName = items.child("name").toJSON() as string
+        containerData.email =email
+        containerData.username = memberUserName
         this.address.push(containerData)
-        console.log(this.address)
       })
    })
-  this.ngZone.run(()=> {
-  console.log("ngZone : success");
-  
-})
   }
-  //Çalışmıyor
-  ionViewWillEnter() {
-    if (firebase.auth().currentUser != null) {
-      firebase.auth().currentUser.providerData.forEach(profile => {
-        
-        this.userName = profile.displayName;
-        this.email = profile.email;
-        this.image = profile.photoURL
-      });
-    }
-  }
-
-  /* logSomethingToConsole(ref){
-
-    firebase.database.add
-    let refrefsher : IonRefresher = ref 
-    refrefsher.cancel();
-  } */
-
+ 
   async logoutAlert() {
     const alert = await this.alertController.create({
       header: "Başarıyla çıkış yapıldı",
@@ -96,32 +83,66 @@ export class Tab5Page implements OnInit {
       .child("photoUrl")
       .once("value");
   }
+  getParentUid(uid){
+    let ref = firebase.database().ref('/Users/relations').child(uid).once('value').then((data) => {
+      let parent= data.val()
+    })
+   
+   
+  }
+  ard() {
+    firebase.database().ref('/Users/relations').child(this.uid).once('value').then((data) => {
+      let parent= data.val()
+    })
+}
   
   photoToFire(arda: any) {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        firebase
-          .storage()
-          .ref("/pp/" + new Date().toISOString())
-          .putString(arda, "data_url")
-          .then(snapshot => {
-            snapshot.ref.getDownloadURL().then(downloadUrl => {
-              firebase
-                .database()
-                .ref("/Users/subscribed/" + user.uid)
-                .child("photoUrl")
-                .set(downloadUrl); 
-                firebase.auth().currentUser.updateProfile({
-                  photoURL : downloadUrl
-                }).then(() => {
-                
-                }).catch((error) => {
-                  return error;
-                })
+    let ref = firebase.database().ref('/Users/relations').child(this.uid).once('value').then((data) => {
+      let parent= data.val()
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          firebase
+            .storage()
+            .ref("/pp/" + new Date().toISOString())
+            .putString(arda, "data_url")
+            .then(snapshot => {
+              snapshot.ref.getDownloadURL().then(downloadUrl => {
+                let userr = firebase.database().ref('/Users/subscribed/' +user.uid);
+                let parent= data.val()
+                if(parent === null){
+                  firebase
+                  .database()
+                  .ref("/Users/subscribed/" + user.uid)
+                  .child("photoUrl")
+                  .set(downloadUrl); 
+                  firebase.auth().currentUser.updateProfile({
+                    photoURL : downloadUrl
+                  }).then(() => {
+                  
+                  }).catch((error) => {
+                    return error;
+                  })
+
+                }else {
+
+                  firebase.database().ref("/Users/subscribed/" + parent+ "/members/" + user.uid).child("photoUrl").set(downloadUrl);
+                  firebase.auth().currentUser.updateProfile({
+                    photoURL : downloadUrl
+                  }).then(() => {
+                  
+                  }).catch((error) => {
+                    this.toast.monthlySubToast(error)
+                  })
+                 
+                 
+                }
+              });
             });
-          });
-      }
-    });
+        }
+      });
+    })
+ 
+  
   }
   takeSelfie() {
     const options: CameraOptions = {

@@ -11,10 +11,15 @@
     <!--  <ion-input [(ngModel)]="userName" placeholder="Kullanıcı Adı"></ion-input> -->
 
     <ion-input [(ngModel)]="mail" placeholder="Mail Adresi"></ion-input>
-
-    <ion-button color="light" expand="block" (click)="memberAdd()">Kullanıcı Ekle</ion-button>
+<ion-grid text-center>
+  <ion-row>
+    <ion-col size ="10"><ion-button color="light" expand="block" (click)="memberAdd()">Kullanıcı Ekle</ion-button></ion-col>
+    <ion-col size ="2"><ion-toggle [(ngModel)]="members" color="dark"></ion-toggle></ion-col>
+  </ion-row>
+</ion-grid>
+    
   </ion-list>
-  <ion-list style="padding:1em"  *ngIf="members">
+  <ion-list style="padding:1em" *ngIf="members">
     <ion-list-header>Takip Edilen Kullanıcılar</ion-list-header>
     <ion-item-divider color="medium"></ion-item-divider>
     <ion-card *ngFor="let member of membersData">
@@ -35,12 +40,11 @@
       </ion-card-content>
     </ion-card>
   </ion-list>
-  <ion-button style="margin:1em" expand="block" color="tertiary" (click)="getMembers()" routerDirection="root">Members</ion-button>
 <br><br>
 <div #map id="map">
     
   </div>
-  <ion-fab *ngIf="!ionScrollStart"  vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
       <ion-fab-button (click)="scrollToTop()"> 
         <ion-icon name="arrow-dropup"></ion-icon>
       </ion-fab-button>

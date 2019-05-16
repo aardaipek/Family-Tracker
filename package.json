@@ -43,6 +43,7 @@
     "firebase": "^5.9.4",
     "firebaseui": "^3.5.2",
     "firebaseui-angular": "^3.4.1",
+    "lodash": "^4.17.11",
     "zone.js": "~0.8.29"
   },
   "devDependencies": {
@@ -58,6 +59,7 @@
     "@ionic/lab": "1.0.24",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/lodash": "^4.14.129",
     "@types/node": "~10.14.2",
     "codelyzer": "~4.5.0",
     "cordova-plugin-device": "^2.0.2",

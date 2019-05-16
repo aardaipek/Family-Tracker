@@ -47,6 +47,7 @@ email:string;
         err => reject(err))
     })
    }
+   
    loginUser(email: string, password: string): Promise<firebase.auth.UserCredential>{
    return firebase.auth().signInWithEmailAndPassword(email,password)
    

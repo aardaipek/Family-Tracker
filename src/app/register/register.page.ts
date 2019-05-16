@@ -7,6 +7,10 @@ import {
   Validators,
   FormControl
 } from "@angular/forms";
+import * as firebase from "firebase";
+import { AngularFireDatabase } from "@angular/fire/database";
+
+
 
 @Component({
   selector: "app-register",
@@ -18,6 +22,8 @@ export class RegisterPage implements OnInit {
   email: string;
   password: string;
   userName:string;
+  parentUid: any;
+  parentsUid:any;
 
   validations_form: FormGroup;
   errorMessage: string = "";
@@ -40,7 +46,9 @@ export class RegisterPage implements OnInit {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    public dbs: AngularFireDatabase,
+
   ) {}
 
   ngOnInit() {
@@ -54,11 +62,44 @@ export class RegisterPage implements OnInit {
         Validators.required
       ])),
     });
+
+    
   }
+  postUid(uid,parentUid) {
+    return firebase.database().ref("/Users/relations/" + uid).set(parentUid)
+ }
 
   tryRegister(value){
+  
     this.authService.registerUser(value)
-     .then(res => {
+     .then(res => { 
+    /*   firebase.auth().onAuthStateChanged(user => {
+        this.dbs.list("/Users/subscribed/").snapshotChanges().subscribe(items=>{
+          items.forEach(item=>{
+            let container = {
+              uid:"",
+              email:""
+            }
+
+           container.uid = item.key as string
+           container.email = item.payload.child("members").child(user.uid).child("email").toJSON() as string
+           this.parentsUid.push(container)
+            console.log(container.email)
+           if(user.email === item.payload.child("members").child(user.uid).child("email").toJSON()) {
+              for (let i = 0; i <1000000; i++) {
+   
+                this.parentUid = this.parentsUid[i].uid
+                this.postUid(user.uid,this.parentUid)
+            
+              }
+          }   
+          })
+        })
+
+       }) */
+     
+  
+     
        console.log(res);
        this.errorMessage = "";
        this.successMessage = "Your account has been created. Please log in.";

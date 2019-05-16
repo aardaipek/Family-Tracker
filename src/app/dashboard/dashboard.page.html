@@ -60,5 +60,22 @@
 <ion-item-divider style="margin-top:1.6em" color="medium"></ion-item-divider>
 <br><br><br>
 </ion-list>
+<ion-card *ngFor="let member of membersData">
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-thumbnail>
+            <ion-img [src]="member.photo"></ion-img>
+          </ion-thumbnail>
+        </ion-col>
+        <div id="memberDiv">
+          <ion-label color="light">{{member.username}}</ion-label>
+          <ion-label style="padding-top:5px" color="light">{{member.email}}</ion-label>
+        </div>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>
 
 </ion-content>

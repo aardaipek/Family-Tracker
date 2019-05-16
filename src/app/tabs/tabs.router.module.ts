@@ -13,31 +13,7 @@ const routes: Routes = [
     path: 'tabs',
     component: TabsPage,
     children: [
-      /* {
-        path: 'tab1',
-        outlet: 'tab1',
-        loadChildren: '../tab1/tab1.module#Tab1PageModule',
-      },
-      {
-        path: 'tab2',
-        outlet: 'tab2',
-        loadChildren: '../tab2/tab2.module#Tab2PageModule'
-      },
-       {
-        path: 'tab3',
-        outlet: 'tab3',
-        loadChildren: '../tab3/tab3.module#Tab3PageModule'
-      }, 
-      {
-        path: 'tab4',
-        outlet: 'tab4',
-        loadChildren: '../tab4/tab4.module#Tab4PageModule'
-      },
-      {
-        path: 'tab5',
-        outlet: 'tab5',
-        loadChildren: '../tab5/tab5.module#Tab5PageModule'
-      } */
+   
          {
         path: 'tab1',
         children: [
@@ -64,7 +40,7 @@ const routes: Routes = [
           }
         ] 
       },
-      {
+    /*   {
          path: 'tab3',
         children: [
           {
@@ -72,7 +48,7 @@ const routes: Routes = [
             loadChildren: '../tab3/tab3.module#Tab3PageModule'
           }
         ] 
-      }, 
+      },  */
       {
         
         path: 'tab4',
