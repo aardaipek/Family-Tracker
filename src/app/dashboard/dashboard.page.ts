@@ -46,23 +46,26 @@ export class DashboardPage implements OnInit {
 
 
   membersOfUser(){
-    firebase.database().ref("/Users/subscribed/" + this.uid+ "/members").once('value').then((snapshot)=>{
-      snapshot.forEach(items =>{
-       let containerData = {
-         photo:"", 
-         email:"",
-         username: ""
-        }
-        let email = items.child("email").toJSON() as string
-        let photo = items.child("photoUrl").toJSON() as string
-        let memberUserName = items.child("username").toJSON() as string
-        containerData.photo = photo
-        containerData.email =email
-        containerData.username = memberUserName
-        this.membersData.push(containerData)
-      })
-   })
-
+    firebase
+      .database()
+      .ref("/Users/subscribed/" + this.uid + "/members")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(items => {
+          let containerData = {
+            photo: "",
+            email: "",
+            username: ""
+          };
+          let email = items.child("email").toJSON() as string;
+          let photo = items.child("photoUrl").toJSON() as string;
+          let memberUserName = items.child("username").toJSON() as string;
+          containerData.photo = photo;
+          containerData.email = email;
+          containerData.username = memberUserName;
+          this.membersData.push(containerData);
+        });
+      });
   }
 
    buy(product){

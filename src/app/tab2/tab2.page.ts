@@ -33,7 +33,7 @@ export class Tab2Page {
   curLat:  any;
   curLng:  any;
   uid:     string;
-  areaLat: any; 
+  areaLat: any;
   areaLng: any;
   parentUID: string;
   userName: string;
@@ -67,7 +67,7 @@ export class Tab2Page {
 
   //parametre almalı
   areaDelete() {
-    /*   firebase.database().ref("/Users/subscribed/" + this.uid+ "/areas").once('value').then((snapshot)=>{ 
+    /*   firebase.database().ref("/Users/subscribed/" + this.uid+ "/areas").once('value').then((snapshot)=>{
        snapshot.forEach(item => {
         let data = {
           aName: "",
@@ -117,6 +117,7 @@ export class Tab2Page {
         });
       });
   }
+
   getUserArea() {
     firebase
       .database()
@@ -186,8 +187,8 @@ export class Tab2Page {
     this.f.detectChanges();
   }
 
-  //MAP CİRCLE
 
+//MAP CİRCLE
   mapClick() {
     this.map.addListener("click", event => {
       this.clickEvent = event.latLng.toJSON();
@@ -216,44 +217,7 @@ export class Tab2Page {
       .child(uid)
       .once("value");
   }
-  /* sendLocationMember(uid: any) {
-      this.GetParentUid(uid) .then(result => {
-        this.parentUID = result.val();
-        if ( this.parentUID != null ||  this.parentUID != undefined) {
-          this.dbs
-          .list(
-            "/Users/subscribed/" + this.parentUID  + "/members/" + uid + "/locations"
-          )
-          .snapshotChanges()
-          .subscribe(item => {
-            firebase
-              .database()
-              .ref(
-                "/Users/subscribed/" + this.parentUID + "/members/" + uid + "/locations"
-              )
-              .update({
-               // lat: parseFloat(data.coords.latitude.toFixed(5))lng: parseFloat(data.coords.longitude.toFixed(5)) 
-                lat:  parseFloat(this.curLat.toFixed(5)),
-                lng: parseFloat(this.curLng.toFixed(5))
-              });
-          });
-        } else {
-          this.dbs
-            .list("/Users/subscribed/" + uid + "/locations")
-            .snapshotChanges()
-            .subscribe(item => {
-              firebase
-                .database()
-                .ref("/Users/subscribed/" + uid + "/locations")
-                .update({
-                 // lat: parseFloat(data.coords.latitude.toFixed(5)),lng: parseFloat(data.coords.longitude.toFixed(5)) 
-                  lat:  parseFloat(this.curLat.toFixed(5)),
-                  lng: parseFloat(this.curLng.toFixed(5))
-                });
-            });
-        }
-      });
-  } */
+
   loadMap(photo: string, name: string) {
     this.geo.getCurrentPosition().then(
       position => {
@@ -338,6 +302,7 @@ export class Tab2Page {
 
     await alert.present();
   }
+  
   async createAlertError() {
     const alert = await this.alertController.create({
       message: "Location service is not available",

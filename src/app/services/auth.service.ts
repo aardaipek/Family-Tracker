@@ -2,12 +2,11 @@ import { ToastService } from './toast.service';
 import { Injectable } from "@angular/core";
 import { User } from "firebase";
 import { Router } from "@angular/router";
-import { auth } from "firebase/app";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Storage } from "@ionic/storage";
-import { BehaviorSubject } from "rxjs";
 import { Platform } from "@ionic/angular";
 import * as firebase from 'firebase/app';
+
 
 
 
@@ -22,7 +21,7 @@ email:string;
     public router: Router,
     private storage: Storage,
     private plt: Platform,
-    private toast: ToastService
+    private toast: ToastService,
   ) {  }
 
   
@@ -65,7 +64,6 @@ email:string;
       if(firebase.auth().currentUser){
         firebase.auth().signOut()
         .then(() => {
-          console.log("LOG Out");
           resolve();
         }).catch((error) => {
           reject();
