@@ -70,7 +70,11 @@ public lastLocation = {
       } else {
       }
     });
-      //this.timer()
+  }
+
+  ionViewWillLeave() {
+    console.log('leave page')
+    //başka bir tab sayfası açıldığı zaman interval işlemi iptal edilecek yada unsubscribe() olacak
   }
 
   GetParentUid(uid) {
@@ -98,7 +102,7 @@ public lastLocation = {
           this.updateLocation(data.coords,uid);
     }
   });
-},10000);
+},5000);
   }
 
   //Güncellemek için minimum değeri aştığını döndürür
@@ -264,58 +268,45 @@ public lastLocation = {
 
   // auth olan ADMIN marker
   marker(map: any, name: string, photo: string, uid:any) {
-    // this.dbs
-    //   .list("/Users/subscribed/" + uid + "/locations")
-    //   .snapshotChanges()
-    //   .subscribe(items => {
-    //     let container = {
-    //       lat: 0,
-    //       lng: 0
-    //     };
-    //     items.forEach(item => {
-    //       if (item.key == "lat") {
-    //         container.lat = item.payload.toJSON() as number;
-    //       } else if (item.key == "lng") {
-    //         container.lng = item.payload.toJSON() as number;
-    //       }
-    //     });
-    //     if (this.adminLoc.length > 0) {
-    //       let lastLocationlat = this.adminLoc[this.adminLoc.length - 1].lat;
-    //       let lastLocationlng = this.adminLoc[this.adminLoc.length - 1].lng;
-    //       let distance = this.calculate(
-    //         container.lat,
-    //         container.lng,
-    //         lastLocationlat,
-    //         lastLocationlng
-    //       );
-    //       if (distance > MINIMUM_DISTANCE) {
-    //         this.adminLoc.push(container);
-    //         this.adminLoc.shift()
-    //       }
-    //     } else if(this.adminLoc.length > 1) {
-    //       this.adminLoc.shift()
-    //     }else {
-    //       this.adminLoc.push(container);
-    //     }
-    //   });
-    //   for (let i = 0; i < this.membersLoc.length; i++) {
-    //       let marker = new google.maps.Marker({
-    //         map: map,
-    //         clickable: true,
-    //         position: this.membersLoc[i],
-    //         icon: {
-    //           url: this.membersLoc[i].icon.url,
-    //           scaledSize: new google.maps.Size(40, 40)
-    //         }
-    //       });
-    //     }
-    let marker = new google.maps.Marker({
-               map: map,
-               clickable: true,
-               position: map.getCenter(),
-               icon: this.ico
-             });
+    this.dbs
+      .list("/Users/subscribed/" + uid + "/locations")
+      .snapshotChanges()
+      .subscribe(items => {
+        let container = {
+          lat: 0,
+          lng: 0
+        };
+        items.forEach(item => {
+          if (item.key == "lat") {
+            container.lat = item.payload.toJSON() as number;
+          } else if (item.key == "lng") {
+            container.lng = item.payload.toJSON() as number;
+          }
+        });
+        if (this.membersLoc.length > 0) {
+          let lastLocationlat = this.adminLoc[this.adminLoc.length - 1].lat;
+          let lastLocationlng = this.adminLoc[this.adminLoc.length - 1].lng;
+          let distance =Math.sqrt((container.lat - lastLocationlat) * (container.lat - lastLocationlat) + (container.lng - lastLocationlng) * (container.lng - lastLocationlng))
+          if((container.lat == lastLocationlat) && (container.lng == lastLocationlng)) {
+            return distance = 0
+          }else if(((container.lat - lastLocationlat) >= 200 || (container.lng - lastLocationlng) >= 200 ) || distance > MINIMUM_DISTANCE){
+            console.log("fark 200")
+              this.adminLoc.push(container);
+              this.adminLoc.shift()
+          }
 
+        }else if(this.adminLoc.length > 2) {
+          this.adminLoc.shift()
+        }else {
+              this.adminLoc.push(container);
+        }
+        let marker = new google.maps.Marker({
+                   map: map,
+                   clickable: true,
+                   position: map.getCenter(),
+                   icon: this.ico
+                 });
+      });
   }
 
   memberMarker(map: any) {
@@ -323,16 +314,17 @@ public lastLocation = {
       .list("/Users/subscribed/" + this.uid + "/members")
       .snapshotChanges()
       .subscribe(items => {
+        let container = {
+          lat: 0,
+          lng: 0,
+          icon: {
+            url: "",
+            scaledSize: { width: 50, heigth: 50 }
+          },
+          email: ""
+        };
         items.forEach(item => {
-          let container = {
-            lat: 0,
-            lng: 0,
-            icon: {
-              url: "",
-              scaledSize: { width: 50, heigth: 50 }
-            },
-            email: ""
-          };
+
           let photo = item.payload.child("photoUrl").toJSON() as string;
           container.icon.url = photo;
           let mail = item.payload.child("email").toJSON() as string;
@@ -346,39 +338,23 @@ public lastLocation = {
             }
           });
           if (this.membersLoc.length > 1) {
-            let filtered = this.getFilteredLocations(container.email);
-            console.log("filtered", filtered.length);
-            if (filtered.length != 0) {
-              let lastLocation = filtered[filtered.length - 1];
-              let distance = this.calculate(
-                container.lat,
-                container.lng,
-                lastLocation.lat,
-                lastLocation.lng
-              );
-              console.log("distance", distance);
+             let filtered = this.getFilteredLocations(container.email)
+             let lastLocation = filtered[filtered.length - 1];
+             let distance =Math.sqrt((container.lat - lastLocation.lat) * (container.lat - lastLocation.lat) + (container.lng - lastLocation.lng) * (container.lng - lastLocation.lng))
 
-              if (distance >= 0.00019) {
-                console.log(1);
-                if (this.membersLoc.length >= 3) {
-                  console.log(2);
-                  this.membersLoc.shift();
-                  this.membersLoc.push(container);
-                } else {
-                  console.log(3);
-
-                  this.membersLoc.push(container);
-                }
-              }
-            } else {
-              this.membersLoc.push(container);
+             if((container.lat == lastLocation.lat) && (container.lng == lastLocation.lng2)) {
+              return distance = 0
+            }else if((container.lat - lastLocation.lat) >= 200 || (container.lng - lastLocation.lng) >= 200 ){
+              console.log("fark 200")
+                this.membersLoc.push(container);
             }
-          } else {
-            this.membersLoc.push(container);
+
+          }else if(this.membersLoc.length > 2) {
+            this.membersLoc.shift()
+          }else {
+                this.membersLoc.push(container);
           }
-
-        });
-
+          });
         for (let i = 0; i < this.membersLoc.length; i++) {
           let marker = new google.maps.Marker({
             map: map,
